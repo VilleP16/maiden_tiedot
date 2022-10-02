@@ -9,6 +9,11 @@ const App = () => {
     setFilterCountriesBy(event.target.value)
   }
 
+  const showClickedCountry = value => () =>{
+    console.log('heiiiii', value)
+    setFilterCountriesBy(value)
+  }
+
   useEffect(() => {
     console.log('effect')
     axios
@@ -25,26 +30,17 @@ const App = () => {
 
     return country.name.common.toLowerCase().includes(filterCountriesBy.toLowerCase())
   })
-
+  
   return (
     <div>
       <FilterCountryList filterCountriesBy={filterCountriesBy} handleFilterChange={handleFilterChange} />
-      <CountryList countries={countriesToShow} />
+      <CountryList countries={countriesToShow} handleClick={showClickedCountry} />
     </div>
   )
 }
 
-const FilterCountryList = (props) => {
-  return (
-    <div>
-      <p>Find countries: <input value={props.filterCountriesBy} onChange={props.handleFilterChange} /></p>
-    </div>
-  )
 
-}
-
-const CountryList = ({ countries }) => {
-  console.log('pituus', countries.length)
+const CountryList = ({ countries, handleClick }) => {
   if (countries.length >= 10) {
     return (
       <p>Too many matches, please speficy another filter</p>
@@ -69,7 +65,7 @@ const CountryList = ({ countries }) => {
       <div>
         {countries.map((country) => {
           console.log(country)
-          return <Country name={country.name.common} key={country.name.official} />
+          return <Country name={country.name.common} handleClick = {handleClick} key={country.name.official} />
         })}
       </div>
     )
@@ -77,9 +73,11 @@ const CountryList = ({ countries }) => {
 }
 const Country = (props) => {
   return (
-    <p>
+    <div>
       {props.name}
-    </p>
+      <button onClick={props.handleClick(props.name)}>Show</button>
+    </div>
+     
   )
 }
 
@@ -102,6 +100,14 @@ const CountryWithDetails = (props) => {
       <img src={props.flag} alt='Country flag' />
     </div>
   )
+}
+const FilterCountryList = (props) => {
+  return (
+    <div>
+      <p>Find countries: <input value={props.filterCountriesBy} onChange={props.handleFilterChange} /></p>
+    </div>
+  )
+
 }
 
 export default App
