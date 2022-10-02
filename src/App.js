@@ -49,7 +49,7 @@ const CountryList = ({ countries }) => {
     return (
       <p>Too many matches, please speficy another filter</p>
     )
-  } else if (countries.length == 1) {
+  } else if (countries.length === 1) {
     return (
       <div>
         {countries.map((country) => {
@@ -99,7 +99,7 @@ const CountryWithDetails = (props) => {
           return <li key ={key}>{props.languages[key]} </li>
         })}
       </ul>
-      <img src={props.flag} />
+      <img src={props.flag} alt='Country flag' />
     </div>
   )
 }
